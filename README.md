@@ -39,7 +39,7 @@ Anacondaによる実行環境構築を想定する。
     python setup.py build_ext --inplace
     cd ..
     ```
-1. [PL-BERT-ja](https://github.com/kyamauchi1023/PL-BERT-ja?tab=readme-ov-file)より、Phoneme−Level Bertの事前学習モデルをダウンロード及び展開する。
+1. [PL-BERT-ja](https://github.com/kyamauchi1023/PL-BERT-ja?tab=readme-ov-file)より、日本語版のPhoneme−Level Bertの事前学習モデルをダウンロード及び展開する。
 
 ## 2. データセットの準備
 
@@ -70,7 +70,7 @@ Anacondaによる実行環境構築を想定する。
 > ⚠CUDA Out of Memoryのエラーが出た場合には、config.jsonにてbatch_sizeを小さくする。
 
 ```sh
-python train_latest.py --config configs/jvnv_base.json -m JVNV_Dataset
+python train_ms.py --config configs/jvnv_base.json -m JVNV_Dataset
 ```
 
 
@@ -89,12 +89,6 @@ Terminal上にて使用するデバイスを選択後、テキストを入力す
 ## 事前学習モデル
 - 後ほど追加します。
 
-## 付録
-- FullBand化におけるMB-iSTFT-VITSの定周波ノイズについて。
-
-    MB-iSTFT-VITSでは、ﾋﾟｰ（ファの音あたり）という定周波ノイズが発生し、スペクトログラムに横線が入ってしまったが、MS-iSTFT-VITSの方では発生しませんでした。モデル設定は共通にしてあるので、学習可能なフィルタが貢献しているかもしれません。
-
-<img src="./fig/figure_mel.png" width="100%">
 
 ## 参考文献
 - https://github.com/jaywalnut310/vits.git
