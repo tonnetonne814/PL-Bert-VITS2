@@ -91,6 +91,7 @@ Terminal上にて使用するデバイスを選択後、テキストを入力す
 
 
 ## 参考文献
-- [https://github.com/jaywalnut310/vits.git](https://github.com/yl4579/PL-BERT)
-- [https://github.com/rishikksh20/iSTFTNet-pytorch.git](https://github.com/daniilrobnikov/vits2)
-- [https://github.com/rishikksh20/melgan.git](https://github.com/fishaudio/Bert-VITS2)https://github.com/fishaudio/Bert-VITS2
+- https://github.com/fishaudio/Bert-VITS2
+- https://github.com/yl4579/PL-BERT
+- https://github.com/daniilrobnikov/vits2
+- https://github.com/kyamauchi1023/PL-BERT-ja
