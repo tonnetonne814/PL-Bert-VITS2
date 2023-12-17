@@ -80,7 +80,7 @@ tensorboard --logdir logs
 ```
 
 ## 5. 推論
-次のコマンドを入力することで、推論を開始する。config.jsonへのパスと、生成器モデルパスと、PL-BERT-jaのフォルダを指定する。
+次のコマンドを入力することで、推論を開始する。config.jsonへのパスと、生成器モデルパスと、PL-BERT-jaのcheckpointsのフォルダを指定する。
 ```sh
 python3 inference.py --model_ckpt_path ./path/to/ckpt.pth --model_cnfg_path ./path/to/config.json --pl_bert_dir /path/to/plb-ja_10000000-steps
 ```
