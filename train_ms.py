@@ -4,6 +4,11 @@ import json
 import math
 import os
 
+import logging
+
+numba_logger = logging.getLogger('numba')
+numba_logger.setLevel(logging.WARNING)
+
 import torch
 import torch.distributed as dist
 # from tensorboardX import SummaryWriter
@@ -169,8 +174,8 @@ def run(rank, n_gpus, hps):
         assert (
             duration_discriminator_type in AVAILABLE_DURATION_DISCRIMINATOR_TYPES
         ), f"duration_discriminator_type must be one of {AVAILABLE_DURATION_DISCRIMINATOR_TYPES}"
-        duration_discriminator_type = AVAILABLE_DURATION_DISCRIMINATOR_TYPES
-        if duration_discriminator_type == "dur_disc_1":
+        # duration_discriminator_type = AVAILABLE_DURATION_DISCRIMINATOR_TYPES # ここ修正
+        if duration_discriminator_type == "dur_disc_1": 
             net_dur_disc = DurationDiscriminatorV1(
                 hps.model.hidden_channels,
                 hps.model.hidden_channels,
@@ -248,6 +253,12 @@ def run(rank, n_gpus, hps):
                 optim_dur_disc,
             )
         global_step = (epoch_str - 1) * len(train_loader)
+
+        input = input("Initialize Global Steps and Epochs ??? y/n")
+        if input == "y":
+            epoch_str = 1
+            global_step = 0
+
     except:
         epoch_str = 1
         global_step = 0
@@ -517,10 +528,10 @@ def train_and_evaluate(
                     "slice/mel_gen": utils.plot_spectrogram_to_numpy(
                         y_hat_mel[0].data.cpu().numpy()
                     ),
-                    "all/mel": utils.plot_spectrogram_to_numpy(
+                    "train/mel": utils.plot_spectrogram_to_numpy(
                         mel[0].data.cpu().numpy()
                     ),
-                    "all/attn": utils.plot_alignment_to_numpy(
+                    "train/attn": utils.plot_alignment_to_numpy(
                         attn[0, 0].data.cpu().numpy()
                     ),
                 }
@@ -619,14 +630,14 @@ def evaluate(hps, generator, eval_loader, writer_eval):
             hps.data.mel_fmax,
         )
     image_dict = {
-        "gen/mel": utils.plot_spectrogram_to_numpy(y_hat_mel[0].cpu().numpy())
+        "valid/mel": utils.plot_spectrogram_to_numpy(y_hat_mel[0].cpu().numpy())
     }
-    audio_dict = {"gen/audio": y_hat[0, :, : y_hat_lengths[0]]}
+    audio_dict = {"valid/gen/audio": y_hat[0, :, : y_hat_lengths[0]]}
     if global_step == 0:
         image_dict.update(
-            {"gt/mel": utils.plot_spectrogram_to_numpy(mel[0].cpu().numpy())}
+            {"valid/gt/mel": utils.plot_spectrogram_to_numpy(mel[0].cpu().numpy())}
         )
-        audio_dict.update({"gt/audio": y[0, :, : y_lengths[0]]})
+        audio_dict.update({"valid/gt/audio": y[0, :, : y_lengths[0]]})
 
     utils.summarize(
         writer=writer_eval,
